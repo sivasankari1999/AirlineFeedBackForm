@@ -1,0 +1,42 @@
+.subtitleName{
+    font-size: 20px;
+    color:#191970;
+}
+.step{
+    font-size: 30px;
+}
+.line{
+  font-size: 30px;
+}
+@media (min-width:319px) and (max-width:480px){
+  .step{
+    font-size: 14px;
+}
+.line{
+  font-size: 14px;
+}
+.subtitleName{
+ font-size: 18px;
+  color:#191970;
+}
+}
+@media (min-width: 761px) and (max-width:1279px){
+.step{
+    font-size: 20px;
+}
+.line{
+  font-size: 20px;
+}
+.subtitleName{
+  font-size:16px;
+  color:#191970;
+}
+}
+@media (min-width: 1024px) and (max-width:1024px){
+  .step{
+      font-size: 23px;
+  }
+  .line{
+    font-size: 23px;
+  }
+  }
