@@ -32,8 +32,8 @@ export default class Page1 extends Component {
       city: '',
       postalCode: '',
       formData1: {},
-      timer: null,
       errormsg:"",
+      formData2:[],
       /*--------------form error messages----------------*/
       airlines_err_mess: '',
       first_name_err_mess: '',
@@ -82,32 +82,28 @@ export default class Page1 extends Component {
        this.setState({errormsg:""})
     }
   }
-  componentDidMount() {
-    console.log("from componentDidupdate of Form");
-    console.log("props:", this.props.FormDatapage1);
-    console.log(this.props.FormDatapage1.first_name);
+  async componentDidMount() {
+    let {formData2}  =this.state
+    const users = await axios.get("http://localhost:3001/page1");
+    console.log(users.data.formList[users.data.formList.length-1]);
+    formData2.push(users.data.formList[users.data.formList.length-1])
+    console.log(formData2);
     this.setState({ formStatus: true })
-    let formDataInfo = this.props.FormDatapage1
-    this.state.timer = setTimeout(() => {
-      this.setState({
-        country: formDataInfo[0].country,
-        num: formDataInfo[0].num,
-        region: formDataInfo[0].region,
-        selectedAirline: formDataInfo[0].selectedAirline,
-        FlyerNumber: formDataInfo[0].FlyerNumber,
-        first_name: formDataInfo[0].first_name,
-        middle_name: formDataInfo[0].middle_name,
-        last_name: formDataInfo[0].last_name,
-        email: formDataInfo[0].email,
-        address1: formDataInfo[0].address1,
-        address2: formDataInfo[0].address2,
-        city: formDataInfo[0].city,
-        postalCode: formDataInfo[0].postalCode,
-      })
-    }, 1000)
-  }
-  componentWillUnmount() {
-    clearTimeout(this.state.timer);
+    this.setState({
+            country: formData2[0].country,
+            num: formData2[0].num,
+            region: formData2[0].region,
+            selectedAirline: formData2[0].selectedAirline,
+            FlyerNumber: formData2[0].FlyerNumber,
+            first_name: formData2[0].first_name,
+            middle_name: formData2[0].middle_name,
+            last_name: formData2[0].last_name,
+            email: formData2[0].email,
+            address1: formData2[0].address1,
+            address2: formData2[0].address2,
+            city: formData2[0].city,
+            postalCode: formData2[0].postalCode,
+          })
   }
   numchangeHandler = (val) => {
     this.setState({ num: val })

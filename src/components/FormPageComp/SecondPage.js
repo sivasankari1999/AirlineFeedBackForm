@@ -19,7 +19,7 @@ export default class Page2 extends Component {
             comment: '',
             filename: '',
             group1:'',
-            timer: null,
+            formData2:[],
             errormsg:"",
             /*--------errors------*/
             comment_err_mess: '',
@@ -68,24 +68,20 @@ export default class Page2 extends Component {
         this.props.parentCallback(1);
         event.preventDefault();
     }
-    componentDidMount() {
-        console.log("from componentDidupdate of Form");
-        console.log("props:", this.props.FormDatapage2);
-        this.setState({formStatus2:true})
-        let formDataInfo = this.props.FormDatapage2
-        this.state.timer = setTimeout(() => {
-          this.setState({
-            confirmationnum: formDataInfo[0].confirmationnum,
-            ticketnum: formDataInfo[0].ticketnum,
-            comment: formDataInfo[0].comment,
-            group1: formDataInfo[0].group1,
-            filearray:formDataInfo[0].filearray[0].name
-           
-          })
-        }, 1000)
-      }
-      componentWillUnmount() {
-        clearTimeout(this.state.timer);
+    async componentDidMount() {
+        let {formData2}  =this.state
+        const users = await axios.get("http://localhost:3001/page2");
+        console.log(users.data.formList[users.data.formList.length-1]);
+        formData2.push(users.data.formList[users.data.formList.length-1])
+        console.log(formData2);
+        this.setState({ formStatus: true })
+        this.setState({
+                comment: formData2[0].comment,
+                confirmationnum: formData2[0].confirmationnum,
+                ticketnum: formData2[0].ticketnum,
+                group1: formData2[0].group1,
+                filename: formData2[0].filename,
+              })
       }
     fileChangeHandler = (event) => {
         // console.log(event.target.files);
