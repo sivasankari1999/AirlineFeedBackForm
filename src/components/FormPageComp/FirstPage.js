@@ -10,7 +10,9 @@ import Form from 'react-bootstrap/Form';
 import PhoneInput from 'react-phone-number-input'
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 import Button from 'react-bootstrap/Button';
+import axios from "axios";
 export default class Page1 extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -31,6 +33,7 @@ export default class Page1 extends Component {
       postalCode: '',
       formData1: {},
       timer: null,
+      errormsg:"",
       /*--------------form error messages----------------*/
       airlines_err_mess: '',
       first_name_err_mess: '',
@@ -50,22 +53,40 @@ export default class Page1 extends Component {
       formStatus: false
     };
   }
-  onTrigger = (event) => {
+  onTrigger = async(event) => {
     event.preventDefault();
-    let { formStatus } = this.state;
+    let { formStatus,errormsg } = this.state;
     let formData1 = this.state;
     console.log(formData1);
     console.log(formStatus);
     if (formStatus == true) {
       this.props.parentCallback(2);
       this.props.createPage1(formData1);
+      const url = "http://localhost:3001/page1";
+      axios
+        .post(url,formData1 )
+        .then((res) => {
+          console.log("res.data: ", res.data);
+          alert(res.data.message);
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.log(err);
+            console.log("err.response: ", err.response);
+            console.log("err.response.ok: ", err.response.ok);
+            console.log("err.response.data: ", err.response.data);
+            this.setState({errormsg:err.response.data.message});
+            console.log(errormsg);
+          }
+        });
+       this.setState({errormsg:""})
     }
   }
   componentDidMount() {
     console.log("from componentDidupdate of Form");
     console.log("props:", this.props.FormDatapage1);
     console.log(this.props.FormDatapage1.first_name);
-    this.setState({formStatus:true})
+    this.setState({ formStatus: true })
     let formDataInfo = this.props.FormDatapage1
     this.state.timer = setTimeout(() => {
       this.setState({

@@ -35,7 +35,6 @@ export default class Page3 extends Component {
               </Row>
               <Row>
                 <Col>
-                  <a href="">Edit</a>
                 </Col>
                 <Col>
                   Give a Compliment
@@ -61,7 +60,6 @@ export default class Page3 extends Component {
               </Row>
               <Row>
                 <Col>
-                  <a href="">Edit</a>
                 </Col>
                 <Col>
                   Contact Information
@@ -122,7 +120,6 @@ export default class Page3 extends Component {
               </Row>
               <Row>
                 <Col>
-                  <a href="">Edit</a>
                 </Col>
                 <Col>
                 <div className="details">

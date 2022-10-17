@@ -9,6 +9,7 @@ import Container from 'react-bootstrap/esm/Container';
 import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
 import { FcInfo } from "react-icons/fc";
 import Button from 'react-bootstrap/Button';
+import axios from "axios";
 export default class Page2 extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +20,7 @@ export default class Page2 extends Component {
             filename: '',
             group1:'',
             timer: null,
+            errormsg:"",
             /*--------errors------*/
             comment_err_mess: '',
             file_err_mess: '',
@@ -34,15 +36,33 @@ export default class Page2 extends Component {
         //console.log(event.target.value);
         this.setState({ [event.target.name]: event.target.value })
     }
-    onTrigger = (event) => {
+    onTrigger = async (event) => {
         event.preventDefault();
-        let { formStatus2 } = this.state
+        let { formStatus2,errormsg } = this.state
         let currentformData2 = this.state
         console.log(currentformData2);
         if (formStatus2 == true) {
             this.props.parentCallback(3);
             this.props.previousPage(currentformData2)
-        }
+            const url = "http://localhost:3001/page2";
+            axios
+              .post(url,currentformData2 )
+              .then((res) => {
+                console.log("res.data: ", res.data);
+                alert(res.data.message);
+              })
+              .catch((err) => {
+                if (err.response) {
+                  console.log(err);
+                  console.log("err.response: ", err.response);
+                  console.log("err.response.ok: ", err.response.ok);
+                  console.log("err.response.data: ", err.response.data);
+                  this.setState({errormsg:err.response.data.message});
+                  console.log(errormsg);
+                }
+              });
+             this.setState({errormsg:""})
+          }
     }
     OnPreview = (event) => {
         this.props.parentCallback(1);
@@ -78,7 +98,7 @@ export default class Page2 extends Component {
         console.log("File: ", filename);
         for (let i = 0; i < filename.length; i++)
             filearray[i] = filename[i]
-        this.setState({ filename: '', filearray });
+        this.setState({ filename:filearray[0].name, filearray });
         console.log(filearray);
     }
     Validations = (e) => {
